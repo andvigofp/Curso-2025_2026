@@ -12,7 +12,7 @@ package Ejercicios.EJ1;
  *
  * Devolver el resultado por pantalla.
  */
-public class EJ1 {
+public class Ef1 {
     static String texto = "4;5;7;8;4";
 
     public static void main(String[] args) {
