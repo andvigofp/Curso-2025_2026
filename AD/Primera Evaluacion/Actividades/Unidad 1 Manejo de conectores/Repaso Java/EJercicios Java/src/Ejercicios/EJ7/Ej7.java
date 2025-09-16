@@ -28,7 +28,8 @@ public class Ej7 {
 
         int opcion = -1;
 
-        do {
+
+        while(opcion != 7) {
             try {
                 System.out.println("Seleccione una opción.");
                 pintarMenu();
@@ -37,35 +38,57 @@ public class Ej7 {
                 opcion = -1;
             }
 
-
-
             switch (opcion) {
-                case 1:
-                    for (Alumno alumno: listaAlumnos)
+                case 1: {
+                    for (Alumno alumno : listaAlumnos)
                         System.out.println(alumno.getNombre() + ": " + alumno.getNotaMedia());
+
                     break;
-                case 2:
+                }
+                case 2: {
                     notaMediaModulo(listaAlumnos);
                     break;
-                case 3:
+                }
+                case 3: {
+                    for (Alumno alumno : listaAlumnos) {
+                        if (alumno.getAprobadoTodo())
+                            System.out.println(alumno.getNombre() + " ha aprobado todo ");
+                        else
+                            System.out.println(alumno.getNombre() + " no ha aprobado todo ");
+                    }
                     break;
-                case 4:
+                }
+
+                case 4: {
+                    int numeroAlumnosNoCursados = 0;
+                    for (Alumno alumno : listaAlumnos) {
+                        if (!alumno.haCursadoTodosLosModulos()) {
+                            numeroAlumnosNoCursados++;
+                        }
+                    }
+                    System.out.println("El número de alumnos que no han cursado todos los módulos es de: " + numeroAlumnosNoCursados);
+                }
+                break;
+                case 5: {
+                    notaMediaMasAlta(listaAlumnos);
                     break;
-                case 5:
+
+                }
+                case 6: {
+                    alumnoMejorNotaPorModulo(listaAlumnos);
                     break;
-                case 6:
-                    break;
-                case 7:
-                    System.out.println("Fin del programa");
-                    break;
-                default:
+                }
+                case 7: {
+                    System.out.println("Adios");
+                    return;
+                }
+                default: {
                     System.out.println("Opción no válida");
                     pintarMenu();
                     return;
+                }
             }
-
-        }while (opcion !=7);
-
+        }
     }
 
     //Calcularla nota de media
@@ -77,7 +100,7 @@ public class Ej7 {
             int cuenta = 0;
 
             for (Alumno alumno: alumnos) {
-                int nota = alumno.getMaterias(i);
+                int nota = alumno.getMateria(i);
                 if (nota >= 0) {
                     media+= nota;
                     cuenta++;
@@ -90,18 +113,21 @@ public class Ej7 {
         return medias;
     }
 
+    //Alumno con la nota más alta
     private static void alumnoMejorNotaPorModulo(ArrayList<Alumno> alumnos) {
         for (int i= 0; i<materias.length; i++) {
             int notasMasAlta = 0;
             String nombreAlumno = "";
 
             for (Alumno alumno: alumnos) {
-                int nota = alumno.getMaterias(i);
+                int nota = alumno.getMateria(i);
 
                 if (nota > notasMasAlta) {
-                    
+                    notasMasAlta = nota;
+                    nombreAlumno = alumno.getNombre();
                 }
             }
+            System.out.println("El módulo: " + materias[i] + " el alumno con mejor nota es:  " + nombreAlumno + " con un: " + notasMasAlta);
         }
     }
 
@@ -110,16 +136,17 @@ public class Ej7 {
         double mediaMasAlta = 0.0;
         String materiaNotaMasAlta = "";
 
-        double[] notasMedias = notaMediaModulo(alumnos);
+        double[] medias = notaMediaModulo(alumnos);
 
-        for (int i = 0; i<notasMedias.length; i++) {
-            if(notasMedias[i] > mediaMasAlta) {
-                mediaMasAlta = notasMedias[i];
+        for (int i = 0; i < medias.length; i++) {
+            if (medias[i] > mediaMasAlta) {
+                mediaMasAlta = medias[i];
                 materiaNotaMasAlta = materias[i];
             }
         }
-        System.out.println("La materia con la nota media más alta es: " + materiaNotaMasAlta + " con un: " + mediaMasAlta);
+        System.out.println("El módulo con la nota media más alta es: " + materiaNotaMasAlta + " con una media de: " + mediaMasAlta);
     }
+
 
     //Ménu Opciones
     private static void pintarMenu() {
